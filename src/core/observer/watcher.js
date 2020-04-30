@@ -72,6 +72,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
+      console.log('7. calling this.getter : this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)')
       value = this.getter.call(vm, vm) //this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)
     } catch (e) {
       if (this.user) {

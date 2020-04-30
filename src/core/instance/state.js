@@ -1,3 +1,3 @@
 export function initState() {
-  console.log('initState')
+  console.log('3. initState')
 }

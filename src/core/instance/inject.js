@@ -1,6 +1,6 @@
 export function initInjections () {
-  console.log('initInjections')
+  console.log('2. initInjections')
 }
 export function initProvide () {
-  console.log('initProvide')
+  console.log('4. initProvide')
 }

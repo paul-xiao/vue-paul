@@ -2,13 +2,13 @@ import {handleError} from '../../util/error'
 import VNode, { createEmptyVNode } from '../vdom/vnode'
 
 export function initRender(vm){
-console.log('initRender')
+console.log('1. initRender')
   
 }
 export function renderMixin(Vue){
   // 返回 VNode
   Vue.prototype._render = function() {
-    console.log('--Vue.prototype._render--')
+    console.log('9. --Vue.prototype._render--')
     const vm = this
     const { render, _parentVnode } = vm.$options
 

@@ -37,12 +37,12 @@ export function callHook(vm, hook) {
 export function lifecycleMixin(Vue) {
 
   Vue.prototype._update = function (vnode) {
-    console.log('--Vue.prototype._update--')
+    console.log('10. --Vue.prototype._update--')
     const vm = this
     const prevVnode = vm._vnode
     if (!prevVnode) {
       // initial render
-      console.log('job: excuting vm.__patch__ ==> change VNode to DOM')
+      console.log('11. excuting vm.__patch__ ==> change VNode to DOM')
       vm.$el = vm.__patch__(vm.$el, vnode, false, false /* removeOnly */)
     } else {
       // updates
@@ -56,14 +56,14 @@ export function lifecycleMixin(Vue) {
 *
 **/ 
 export function mountComponent(vm, el) {
-  console.log('mountComponent')
+  console.log('6. calling mountComponent')
   vm.$el = el
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode
   }
   callHook(vm, 'beforeMount')
   const updateComponent = () => {
-    console.log('calling vm._update(vm._render(), false)')
+    console.log('8. calling vm._update(vm._render(), false)')
     vm._update(vm._render(), false)
   }
    // we set this to vm._watcher inside the watcher's constructor

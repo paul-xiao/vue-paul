@@ -4,7 +4,7 @@
 }((function () { 'use strict';
 
   function initState() {
-    console.log('initState');
+    console.log('3. initState');
   }
 
   function handleError(){
@@ -55,13 +55,13 @@
   }
 
   function initRender(vm){
-  console.log('initRender');
+  console.log('1. initRender');
     
   }
   function renderMixin(Vue){
     // 返回 VNode
     Vue.prototype._render = function() {
-      console.log('--Vue.prototype._render--');
+      console.log('9. --Vue.prototype._render--');
       const vm = this;
       const { render, _parentVnode } = vm.$options;
 
@@ -201,6 +201,7 @@
       let value;
       const vm = this.vm;
       try {
+        console.log('7. calling this.getter : this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)');
         value = this.getter.call(vm, vm); //this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)
       } catch (e) {
         if (this.user) {
@@ -374,12 +375,12 @@
   function lifecycleMixin(Vue) {
 
     Vue.prototype._update = function (vnode) {
-      console.log('--Vue.prototype._update--');
+      console.log('10. --Vue.prototype._update--');
       const vm = this;
       const prevVnode = vm._vnode;
       if (!prevVnode) {
         // initial render
-        console.log('job: excuting vm.__patch__ ==> change VNode to DOM');
+        console.log('11. excuting vm.__patch__ ==> change VNode to DOM');
         vm.$el = vm.__patch__(vm.$el, vnode, false, false /* removeOnly */);
       } else {
         // updates
@@ -393,14 +394,14 @@
   *
   **/ 
   function mountComponent(vm, el) {
-    console.log('mountComponent');
+    console.log('6. calling mountComponent');
     vm.$el = el;
     if (!vm.$options.render) {
       vm.$options.render = createEmptyVNode;
     }
     callHook(vm, 'beforeMount');
     const updateComponent = () => {
-      console.log('calling vm._update(vm._render(), false)');
+      console.log('8. calling vm._update(vm._render(), false)');
       vm._update(vm._render(), false);
     };
      // we set this to vm._watcher inside the watcher's constructor
@@ -425,10 +426,10 @@
   }
 
   function initInjections () {
-    console.log('initInjections');
+    console.log('2. initInjections');
   }
   function initProvide () {
-    console.log('initProvide');
+    console.log('4. initProvide');
   }
 
   function initMixin(Vue) {
@@ -462,14 +463,14 @@
 
   function complier (Vue) {
     Vue.prototype.$mount= function(el) {
-      console.log('mounted');
+      console.log('5. calling $mounted');
       return mountComponent(this, el)
 
     };
   }
 
   function Vue(options) {
-    console.log('--init Vue Class--');
+    console.log('--First init steps:--');
     this._init(options); // prototype
   }
 

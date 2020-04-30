@@ -5,7 +5,7 @@ import complier from '../../complier/index'
 
 
 function Vue(options) {
-  console.log(options)
+  console.log('--init Vue Class--')
   this._init(options) // prototype
 }
 

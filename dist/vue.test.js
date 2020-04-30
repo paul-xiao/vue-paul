@@ -61,6 +61,7 @@
   function renderMixin(Vue){
     // 返回 VNode
     Vue.prototype._render = function() {
+      console.log('--Vue.prototype._render--');
       const vm = this;
       const { render, _parentVnode } = vm.$options;
 
@@ -373,11 +374,12 @@
   function lifecycleMixin(Vue) {
 
     Vue.prototype._update = function (vnode) {
-      console.log('update....');
+      console.log('--Vue.prototype._update--');
       const vm = this;
       const prevVnode = vm._vnode;
       if (!prevVnode) {
         // initial render
+        console.log('job: excuting vm.__patch__ ==> change VNode to DOM');
         vm.$el = vm.__patch__(vm.$el, vnode, false, false /* removeOnly */);
       } else {
         // updates
@@ -398,7 +400,7 @@
     }
     callHook(vm, 'beforeMount');
     const updateComponent = () => {
-      console.log('called ................');
+      console.log('calling vm._update(vm._render(), false)');
       vm._update(vm._render(), false);
     };
      // we set this to vm._watcher inside the watcher's constructor
@@ -467,7 +469,7 @@
   }
 
   function Vue(options) {
-    console.log(options);
+    console.log('--init Vue Class--');
     this._init(options); // prototype
   }
 

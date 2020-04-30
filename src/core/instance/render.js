@@ -8,6 +8,7 @@ console.log('initRender')
 export function renderMixin(Vue){
   // 返回 VNode
   Vue.prototype._render = function() {
+    console.log('--Vue.prototype._render--')
     const vm = this
     const { render, _parentVnode } = vm.$options
 

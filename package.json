@@ -1,0 +1,19 @@
+{
+  "name": "vue-paul",
+  "version": "1.0.0",
+  "description": "> 目标：Vue MVVM step by step",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "dev": "rollup -w -c config/rollup.config.js",
+    "build": "node build/build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^2.6.1"
+  }
+}

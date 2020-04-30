@@ -7,6 +7,53 @@
     console.log('initState');
   }
 
+  function handleError(){
+    console.log('handleError');
+  }
+
+  class VNode{
+    constructor(tag,
+      data,
+      children,
+      text,
+      elm,
+      context,
+      componentOptions,
+      asyncFactory) {
+      this.tag = tag;
+      this.data = data;
+      this.children = children;
+      this.text = text;
+      this.elm = elm;
+      this.ns = undefined;
+      this.context = context;
+      this.fnContext = undefined;
+      this.fnOptions = undefined;
+      this.fnScopeId = undefined;
+      this.key = data && data.key;
+      this.componentOptions = componentOptions;
+      this.componentInstance = undefined;
+      this.parent = undefined;
+      this.raw = false;
+      this.isStatic = false;
+      this.isRootInsert = true;
+      this.isComment = false;
+      this.isCloned = false;
+      this.isOnce = false;
+      this.asyncFactory = asyncFactory;
+      this.asyncMeta = undefined;
+      this.isAsyncPlaceholder = false;
+    }
+  }
+
+
+  function createEmptyVNode(text) {
+    const node = new VNode();
+    node.text = text;
+    node.isComment = true;
+    return node
+  }
+
   function initRender(vm){
   console.log('initRender');
     
@@ -29,7 +76,7 @@
       // to the data on the placeholder node.
       vm.$vnode = _parentVnode;
       // render self
-      let vnode;
+      let vnode, currentRenderingInstance;
       try {
         // There's no need to maintain a stack because all render fns are called
         // separately from one another. Nested component's render fns are called
@@ -37,15 +84,15 @@
         currentRenderingInstance = vm;
         vnode = render.call(vm._renderProxy, vm.$createElement);
       } catch (e) {
-        handleError(e, vm, `render`);
+        handleError();
         // return error render result,
         // or previous vnode to prevent render error causing blank component
         /* istanbul ignore else */
-        if (process.env.NODE_ENV !== 'production' && vm.$options.renderError) {
+        if (vm.$options.renderError) {
           try {
             vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
           } catch (e) {
-            handleError(e, vm, `renderError`);
+            handleError();
             vnode = vm._vnode;
           }
         } else {
@@ -60,7 +107,7 @@
       }
       // return empty vnode in case the render function errored out
       if (!(vnode instanceof VNode)) {
-        if (process.env.NODE_ENV !== 'production' && Array.isArray(vnode)) {
+        if (Array.isArray(vnode)) {
           warn(
             'Multiple root nodes returned from render function. Render function ' +
             'should return a single root node.',
@@ -83,13 +130,6 @@
     if (listeners) {
       updateComponentListeners(vm, listeners);
     }
-  }
-
-  function createEmptyVNode$1() {
-    const node = new VNode();
-    node.text = text;
-    node.isComment = true;
-    return node
   }
 
   let uid = 0;
@@ -157,11 +197,10 @@
      * Evaluate the getter, and re-collect dependencies.
      */
     get () {
-      pushTarget(this);
       let value;
       const vm = this.vm;
       try {
-        value = this.getter.call(vm, vm);
+        value = this.getter.call(vm, vm); //this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)
       } catch (e) {
         if (this.user) {
           handleError(e, vm, `getter for watcher "${this.expression}"`);
@@ -174,7 +213,6 @@
         if (this.deep) {
           traverse(value);
         }
-        popTarget();
         this.cleanupDeps();
       }
       return value
@@ -340,7 +378,7 @@
       const prevVnode = vm._vnode;
       if (!prevVnode) {
         // initial render
-        vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */);
+        vm.$el = vm.__patch__(vm.$el, vnode, false, false /* removeOnly */);
       } else {
         // updates
         vm.$el = vm.__patch__(prevVnode, vnode);
@@ -356,12 +394,12 @@
     console.log('mountComponent');
     vm.$el = el;
     if (!vm.$options.render) {
-      vm.$options.render = createEmptyVNode$1;
+      vm.$options.render = createEmptyVNode;
     }
     callHook(vm, 'beforeMount');
     const updateComponent = () => {
       console.log('called ................');
-      vm._update(vm._render(), hydrating);
+      vm._update(vm._render(), false);
     };
      // we set this to vm._watcher inside the watcher's constructor
     // since the watcher's initial patch may call $forceUpdate (e.g. inside child

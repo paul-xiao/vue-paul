@@ -1,6 +1,7 @@
 
 
-
+import { pushTarget, popTarget } from './dep'
+import { handleError } from '../../util/error'
 
 let uid = 0
 
@@ -71,7 +72,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
-      value = this.getter.call(vm, vm)
+      value = this.getter.call(vm, vm) //this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)
     } catch (e) {
       if (this.user) {
         handleError(e, vm, `getter for watcher "${this.expression}"`)

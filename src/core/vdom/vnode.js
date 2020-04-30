@@ -1,5 +1,12 @@
-export class Vnode{
-  constructor() {
+export default class VNode{
+  constructor(tag,
+    data,
+    children,
+    text,
+    elm,
+    context,
+    componentOptions,
+    asyncFactory) {
     this.tag = tag
     this.data = data
     this.children = children
@@ -27,7 +34,7 @@ export class Vnode{
 }
 
 
-export function createEmptyVNode() {
+export function createEmptyVNode(text) {
   const node = new VNode()
   node.text = text
   node.isComment = true

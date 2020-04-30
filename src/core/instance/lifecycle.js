@@ -42,7 +42,7 @@ export function lifecycleMixin(Vue) {
     const prevVnode = vm._vnode
     if (!prevVnode) {
       // initial render
-      vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
+      vm.$el = vm.__patch__(vm.$el, vnode, false, false /* removeOnly */)
     } else {
       // updates
       vm.$el = vm.__patch__(prevVnode, vnode)
@@ -63,7 +63,7 @@ export function mountComponent(vm, el) {
   callHook(vm, 'beforeMount')
   const updateComponent = () => {
     console.log('called ................')
-    vm._update(vm._render(), hydrating)
+    vm._update(vm._render(), false)
   }
    // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child

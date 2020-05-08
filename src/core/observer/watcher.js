@@ -1,7 +1,20 @@
+/* @flow */
 
+import {
+  warn,
+  remove,
+  isObject,
+  parsePath,
+  _Set as Set,
+  handleError,
+  noop
+} from '../util/index'
 
-import { pushTarget, popTarget } from './dep'
-import { handleError } from '../../util/error'
+import { traverse } from './traverse'
+import { queueWatcher } from './scheduler'
+import Dep, { pushTarget, popTarget } from './dep'
+
+import type { SimpleSet } from '../util/index'
 
 let uid = 0
 
@@ -11,19 +24,35 @@ let uid = 0
  * This is used for both the $watch() api and directives.
  */
 export default class Watcher {
+  vm: Component;
+  expression: string;
+  cb: Function;
+  id: number;
+  deep: boolean;
+  user: boolean;
+  lazy: boolean;
+  sync: boolean;
+  dirty: boolean;
+  active: boolean;
+  deps: Array<Dep>;
+  newDeps: Array<Dep>;
+  depIds: SimpleSet;
+  newDepIds: SimpleSet;
+  before: ?Function;
+  getter: Function;
+  value: any;
 
   constructor (
-    vm,
-    expOrFn,
-    cb,
-    options,
-    isRenderWatcher
+    vm: Component,
+    expOrFn: string | Function,
+    cb: Function,
+    options?: ?Object,
+    isRenderWatcher?: boolean
   ) {
     this.vm = vm
     if (isRenderWatcher) {
       vm._watcher = this
     }
-    vm._watchers= []
     vm._watchers.push(this)
     // options
     if (options) {
@@ -43,7 +72,9 @@ export default class Watcher {
     this.newDeps = []
     this.depIds = new Set()
     this.newDepIds = new Set()
-    this.expression =  ''
+    this.expression = process.env.NODE_ENV !== 'production'
+      ? expOrFn.toString()
+      : ''
     // parse expression for getter
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
@@ -72,8 +103,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
-      console.log('7. calling this.getter : this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)')
-      value = this.getter.call(vm, vm) //this.getter 对应就是 updateComponent 函数，这实际上就是在执行：vm._update(vm._render(), hydrating)
+      value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {
         handleError(e, vm, `getter for watcher "${this.expression}"`)
@@ -95,7 +125,7 @@ export default class Watcher {
   /**
    * Add a dependency to this directive.
    */
-  addDep (dep) {
+  addDep (dep: Dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id)

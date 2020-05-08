@@ -17,6 +17,7 @@ import VNode, { createEmptyVNode } from '../vdom/vnode'
 import { isUpdatingChildComponent } from './lifecycle'
 
 export function initRender (vm: Component) {
+  console.log('5. call initRender')
   vm._vnode = null // the root of the child tree
   vm._staticTrees = null // v-once cached trees
   const options = vm.$options
@@ -67,6 +68,7 @@ export function renderMixin (Vue: Class<Component>) {
   }
 
   Vue.prototype._render = function (): VNode {
+    console.log('12. call _render ==> return Vnode')
     const vm: Component = this
     const { render, _parentVnode } = vm.$options
 

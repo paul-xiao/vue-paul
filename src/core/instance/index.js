@@ -5,6 +5,8 @@ import { eventsMixin } from './events'
 import { lifecycleMixin } from './lifecycle'
 import { warn } from '../util/index'
 
+console.log('%c#first init process：', 'font-weight:bold;font-size:20px;')
+console.log('1. define Vue class')
 function Vue (options) {
   if (process.env.NODE_ENV !== 'production' &&
     !(this instanceof Vue)

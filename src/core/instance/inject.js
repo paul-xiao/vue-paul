@@ -5,6 +5,7 @@ import { warn, hasSymbol } from '../util/index'
 import { defineReactive, toggleObserving } from '../observer/index'
 
 export function initProvide (vm: Component) {
+  console.log('8. call initProvide')
   const provide = vm.$options.provide
   if (provide) {
     vm._provided = typeof provide === 'function'
@@ -14,6 +15,7 @@ export function initProvide (vm: Component) {
 }
 
 export function initInjections (vm: Component) {
+  console.log('6. call initInjections')
   const result = resolveInject(vm.$options.inject, vm)
   if (result) {
     toggleObserving(false)

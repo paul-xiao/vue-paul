@@ -30,6 +30,7 @@ export function setActiveInstance(vm: Component) {
 }
 
 export function initLifecycle (vm: Component) {
+  console.log('3. call initLifecycle')
   const options = vm.$options
 
   // locate first non-abstract parent
@@ -57,6 +58,7 @@ export function initLifecycle (vm: Component) {
 
 export function lifecycleMixin (Vue: Class<Component>) {
   Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
+    console.log('13. call _update')
     const vm: Component = this
     const prevEl = vm.$el
     const prevVnode = vm._vnode
@@ -66,6 +68,7 @@ export function lifecycleMixin (Vue: Class<Component>) {
     // based on the rendering backend used.
     if (!prevVnode) {
       // initial render
+      console.log('14. call __patch__')
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
@@ -143,6 +146,7 @@ export function mountComponent (
   el: ?Element,
   hydrating?: boolean
 ): Component {
+  console.log('10. call mountComponent')
   vm.$el = el
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode
@@ -187,6 +191,7 @@ export function mountComponent (
     }
   } else {
     updateComponent = () => {
+      console.log('11. call updateComponent')
       vm._update(vm._render(), hydrating)
     }
   }
@@ -197,6 +202,7 @@ export function mountComponent (
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {
+        console.log('%c#update process：', 'font-weight:bold;font-size:20px;')
         callHook(vm, 'beforeUpdate')
       }
     }
@@ -208,6 +214,7 @@ export function mountComponent (
   if (vm.$vnode == null) {
     vm._isMounted = true
     callHook(vm, 'mounted')
+    console.log('%c#first init done', 'font-weight:bold;font-size:16px;')
   }
   return vm
 }
@@ -334,6 +341,7 @@ export function deactivateChildComponent (vm: Component, direct?: boolean) {
 }
 
 export function callHook (vm: Component, hook: string) {
+  console.log('callHook', hook)
   // #7573 disable dep collection when invoking lifecycle hooks
   pushTarget()
   const handlers = vm.$options[hook]

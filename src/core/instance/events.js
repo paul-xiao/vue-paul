@@ -10,6 +10,7 @@ import {
 import { updateListeners } from '../vdom/helpers/index'
 
 export function initEvents (vm: Component) {
+  console.log('4. call initEvents')
   vm._events = Object.create(null)
   vm._hasHookEvent = false
   // init parent attached events

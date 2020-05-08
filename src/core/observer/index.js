@@ -139,6 +139,7 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
+  console.log('%ccall defineReactive', 'background: yellow;')
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)

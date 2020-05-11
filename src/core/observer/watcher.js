@@ -103,6 +103,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
+      console.log('%cupdateComponent', 'color: red')
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {

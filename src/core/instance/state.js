@@ -111,7 +111,6 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
-  console.log('initData:')
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -123,7 +122,8 @@ function initData (vm: Component) {
       vm
     )
   }
-  console.log(data)
+  console.log('initData:', data)
+
   // proxy data on instance
   const keys = Object.keys(data)
   const props = vm.$options.props
@@ -150,6 +150,7 @@ function initData (vm: Component) {
     }
   }
   // observe data
+  console.log('observe data')
   observe(data, true /* asRootData */)
 }
 

@@ -52,6 +52,7 @@ export class Observer {
       }
       this.observeArray(value)
     } else {
+      console.log('call walk ===> defineReactive')
       this.walk(value)
     }
   }
@@ -62,6 +63,8 @@ export class Observer {
    * value type is Object.
    */
   walk (obj: Object) {
+    console.log('%cWalk through all properties and convert them into getter/setters. This method should only be called when value type is Object.', 'background:silver')
+    console.log(obj)
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
       defineReactive(obj, keys[i])
@@ -121,6 +124,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+    console.log('new Observer', value)
     ob = new Observer(value)
   }
   if (asRootData && ob) {
@@ -139,7 +143,7 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
-  console.log('%cdefineReactive', 'background: yellow')
+  console.log(`%cdefineReactive ${key}`, 'background: yellow')
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -162,6 +166,7 @@ export function defineReactive (
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
         dep.depend()
+        console.log('p')
         if (childOb) {
           childOb.dep.depend()
           if (Array.isArray(value)) {

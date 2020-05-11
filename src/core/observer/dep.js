@@ -29,12 +29,14 @@ export default class Dep {
   }
 
   depend () {
+    console.log('depend', this)
     if (Dep.target) {
       Dep.target.addDep(this)
     }
   }
 
   notify () {
+    console.log('notify', this.subs)
     // stabilize the subscriber list first
     const subs = this.subs.slice()
     if (process.env.NODE_ENV !== 'production' && !config.async) {

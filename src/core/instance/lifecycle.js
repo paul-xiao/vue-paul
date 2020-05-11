@@ -66,9 +66,11 @@ export function lifecycleMixin (Vue: Class<Component>) {
     // based on the rendering backend used.
     if (!prevVnode) {
       // initial render
+      console.log('init render')
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
+      console.log('updates')
       vm.$el = vm.__patch__(prevVnode, vnode)
     }
     restoreActiveInstance()
@@ -187,6 +189,7 @@ export function mountComponent (
     }
   } else {
     updateComponent = () => {
+      console.log('updateComponent')
       vm._update(vm._render(), hydrating)
     }
   }
@@ -197,6 +200,7 @@ export function mountComponent (
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {
+        console.log('beforeUpdate')
         callHook(vm, 'beforeUpdate')
       }
     }

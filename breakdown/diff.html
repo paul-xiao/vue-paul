@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Vue diff 算法</h1>
+  <p>check the console ...</p>
+  <div id="root">
+    <input type="text" v-model="name">
+    <span v-if="status">{{name}}</span>
+    <p>{{name}}</p>
+    <button @click="status = !status">change status</button>
+  </div>
+<script src="../../dist/vue.js"></script>
+<script>
+ let app = new Vue( {
+      el: '#root',
+      data: {
+        status: false,
+        name: 'diff'
+      }
+    } );
+</script>
+</body>
+</html>

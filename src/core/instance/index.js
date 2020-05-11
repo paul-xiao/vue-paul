@@ -4,7 +4,9 @@ import { renderMixin } from './render'
 import { eventsMixin } from './events'
 import { lifecycleMixin } from './lifecycle'
 import { warn } from '../util/index'
-
+console.log('----------------')
+console.log('%cVue diff 算法', 'color:red')
+console.log('----------------')
 function Vue (options) {
   if (process.env.NODE_ENV !== 'production' &&
     !(this instanceof Vue)

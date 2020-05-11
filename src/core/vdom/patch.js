@@ -70,7 +70,7 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
 export function createPatchFunction (backend) {
   let i, j
   const cbs = {}
-
+  console.log('createPatchFunction')
   const { modules, nodeOps } = backend
 
   for (i = 0; i < hooks.length; ++i) {
@@ -509,6 +509,7 @@ export function createPatchFunction (backend) {
     if (oldVnode === vnode) {
       return
     }
+    console.log('patchVnode:', vnode)
 
     if (isDef(vnode.elm) && isDef(ownerArray)) {
       // clone reused vnode
@@ -553,6 +554,7 @@ export function createPatchFunction (backend) {
     }
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
+        console.log('traverse---------------')
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly)
       } else if (isDef(ch)) {
         if (process.env.NODE_ENV !== 'production') {
@@ -574,6 +576,7 @@ export function createPatchFunction (backend) {
   }
 
   function invokeInsertHook (vnode, queue, initial) {
+    console.log('invokeInsertHook')
     // delay insert hooks for component root nodes, invoke them after the
     // element is really inserted
     if (isTrue(initial) && isDef(vnode.parent)) {
@@ -687,6 +690,7 @@ export function createPatchFunction (backend) {
   }
 
   function assertNodeMatch (node, vnode, inVPre) {
+    console.log('assert node match')
     if (isDef(vnode.tag)) {
       return vnode.tag.indexOf('vue-component') === 0 || (
         !isUnknownElement(vnode, inVPre) &&
@@ -698,6 +702,7 @@ export function createPatchFunction (backend) {
   }
 
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    console.log('start patch ---> ')
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
       return
@@ -714,6 +719,7 @@ export function createPatchFunction (backend) {
       const isRealElement = isDef(oldVnode.nodeType)
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
         // patch existing root node
+        console.log('if sameVnode invoke patchVnode --->')
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
       } else {
         if (isRealElement) {
@@ -744,6 +750,7 @@ export function createPatchFunction (backend) {
         }
 
         // replacing existing element
+        console.log('patch: if not same vnode replace existing element')
         const oldElm = oldVnode.elm
         const parentElm = nodeOps.parentNode(oldElm)
 
